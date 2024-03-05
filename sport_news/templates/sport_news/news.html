@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+{% for news in articles %}
+    <h3>{{news.title|capfirst}}</h3>
+    <p>{{news.content|capfirst}}</p>
+    <p>{{news.update_date|date:"d.m.Y H:i"}}</p>
+{% endfor %}
+</body>
+</html>
