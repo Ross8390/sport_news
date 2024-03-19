@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from sport_news.models import Article
+from sport_news.models import Article, Category
 
 
 # def news_view(request):
@@ -17,6 +17,11 @@ from sport_news.models import Article
 #     return HttpResponse(str1)
 
 def news_view(request):
-     # articles = Article.objects.order_by('-update_date')
-     articles = Article.objects.all()
-     return render(request, 'sport_news/news.html', {'articles': articles, 'title': 'Новости'})
+    # articles = Article.objects.order_by('-update_date')
+    articles = Article.objects.all()
+    category = Category.objects.all()
+    return render(request, 'sport_news/news.html', {
+        'articles': articles,
+        'title': 'Новости',
+        'category': category
+    })
