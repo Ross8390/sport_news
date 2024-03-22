@@ -31,12 +31,7 @@
     </nav>
     <div class="col-md-3 list-group">
         {% for names in category%}
-        {% url 'cat' names.pk as active_url %}
-        {% if request.get_full_path == active_url %}
-        <a href="{% url 'cat' names.pk %}" class="list-group-item active">{{names.title}}</a>
-        {% else %}
         <a href="{% url 'cat' names.pk %}" class="list-group-item">{{names.title}}</a>
-        {% endif %}
         {% endfor %}
     </div>
         <div class="col-md-9 ">
@@ -45,17 +40,16 @@
 <!--            {% if news.is_published %}-->
     <div class="card border-secondary mb-3">
         {% if news.image%}
-        <img src="{{news.image.url}}" class="card-img-top" style="width: 30rem;" alt="...">
+        <img src="{{news.image.url}}" class="card-img-top" style="width: 50rem;" alt="...">
         {% else %}
         <img src="https://img.championat.com/s/732x488/news/big/e/m/v-vada-zayavili-chto-valievoj-pozhertvovali-radi-zaschity-lic-davshih-ej-preparat_1710766928308767205.jpg"
-             class="card-img-top" style="width: 30rem;" alt="...">
+             class="card-img-top" style="width: 50rem;" alt="...">
         {% endif %}
         <div class="card-body">
             <h6>Категория: {{news.category}}</h6>
             <h5 class="card-title">{{news.title}}</h5>
-            <p class="card-text">{{news.content|truncatewords:30}}</p>
+            <p class="card-text">{{news.content}}</p>
             <p>{{news.update_date}}</p>
-            <a href="{% url 'art' news.id %}" class="btn btn-primary">Полностью</a>
         </div>
     </div>
 <!--            {% endif %}-->

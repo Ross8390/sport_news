@@ -18,10 +18,32 @@ from sport_news.models import Article, Category
 
 def news_view(request):
     # articles = Article.objects.order_by('-update_date')
-    articles = Article.objects.all()
+    articles = Article.objects.filter(is_published=True)
     category = Category.objects.all()
     return render(request, 'sport_news/news.html', {
         'articles': articles,
         'title': 'Новости',
+        'category': category
+    })
+
+
+def category_view(request, category_id):
+    articles = Article.objects.filter(category_id=category_id, is_published=True)
+    category = Category.objects.all()
+    title_name = Category.objects.get(pk=category_id)
+    return render(request, 'sport_news/news.html', {
+        'articles': articles,
+        'title': title_name.title,
+        'category': category
+    })
+
+
+def article_view(request, article_id):
+    articles = Article.objects.filter(id=article_id, is_published=True)
+    category = Category.objects.all()
+    title_name = Article.objects.get(id=article_id)
+    return render(request, 'sport_news/article.html', {
+        'articles': articles,
+        'title': title_name.title,
         'category': category
     })
