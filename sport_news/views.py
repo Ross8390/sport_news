@@ -39,11 +39,10 @@ def category_view(request, category_id):
 
 
 def article_view(request, article_id):
-    articles = Article.objects.filter(id=article_id, is_published=True)
     category = Category.objects.all()
-    title_name = Article.objects.get(id=article_id)
+    article = Article.objects.get(id=article_id, is_published=True)
     return render(request, 'sport_news/article.html', {
-        'articles': articles,
-        'title': title_name.title,
+        'title': article.title,
+        'article': article,
         'category': category
     })
