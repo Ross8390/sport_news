@@ -22,7 +22,7 @@ def news_view(request):
     category = Category.objects.all()
     return render(request, 'sport_news/news.html', {
         'articles': articles,
-        'title': 'Новости',
+        'title': '',
         'category': category
     })
 
@@ -34,7 +34,8 @@ def category_view(request, category_id):
     return render(request, 'sport_news/news.html', {
         'articles': articles,
         'title': title_name.title,
-        'category': category
+        'category': category,
+        'category_id': category_id
     })
 
 
