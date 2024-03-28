@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -18,8 +19,10 @@ from sport_news.models import Article, Category
 
 def news_view(request):
     # articles = Article.objects.order_by('-update_date')
-    articles = Article.objects.filter(is_published=True)
+    page_number = int(request.GET.get("articles", 1))
     category = Category.objects.all()
+    paginator = Paginator(Article.objects.filter(is_published=True), 5)
+    articles = paginator.get_page(page_number)
     return render(request, 'sport_news/news.html', {
         'articles': articles,
         'title': '',
@@ -28,8 +31,10 @@ def news_view(request):
 
 
 def category_view(request, category_id):
-    articles = Article.objects.filter(category_id=category_id, is_published=True)
+    page_number = int(request.GET.get("articles", 1))
     category = Category.objects.all()
+    paginator = Paginator(Article.objects.filter(category_id=category_id, is_published=True), 5)
+    articles = paginator.get_page(page_number)
     title_name = Category.objects.get(pk=category_id)
     return render(request, 'sport_news/news.html', {
         'articles': articles,
