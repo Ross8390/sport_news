@@ -1,3 +1,4 @@
+{% load poll_extras %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,7 +12,6 @@
 <div class="container">
     <div class="row">
         {% include 'inc/navbar.html' %}
-        {% load poll_extras %}
         {% current_time "%Y-%m-%d %H:%M" as the_time %}
         <p>Текущее время: {{ the_time }}.</p>
         {% block category_menu %}
