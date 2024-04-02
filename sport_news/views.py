@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from sport_news.models import Article, Category
 
@@ -44,7 +44,8 @@ def category_view(request, category_id):
 
 def article_view(request, article_id):
     # category = Category.objects.all()
-    article = Article.objects.get(id=article_id, is_published=True)
+    # article = Article.objects.get(id=article_id, is_published=True)
+    article = get_object_or_404(Article, pk=article_id, is_published=True)
     return render(request, 'sport_news/article.html', {
         'title': article.title,
         'article': article

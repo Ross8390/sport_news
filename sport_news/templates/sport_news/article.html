@@ -13,21 +13,21 @@
 {% endblock %}
 {% block news %}
 <div class="col-md-9 ">
-            {% autoescape off %}
-            <div class="card border-secondary mb-3">
-                {% if article.image%}
-                <img src="{{article.image.url}}" class="card-img-top" style="width: 50rem;" alt="...">
-                {% else %}
-                <img src="https://img.championat.com/s/732x488/news/big/e/m/v-vada-zayavili-chto-valievoj-pozhertvovali-radi-zaschity-lic-davshih-ej-preparat_1710766928308767205.jpg"
-                     class="card-img-top" style="width: 50rem;" alt="...">
-                {% endif %}
-                <div class="card-body">
-                    <h6>Категория: {{article.category}}</h6>
-                    <h5 class="card-title">{{article.title}}</h5>
-                    <p class="card-text">{{article.content}}</p>
-                    <p>{{article.update_date}}</p>
-                </div>
-            </div>
-            {% endautoescape %}
+    {% autoescape off %}
+    <div class="card border-secondary mb-3">
+        {% if article.image%}
+        <img src="{{article.image.url}}" class="card-img-top" style="width: 50rem;" alt="...">
+        {% else %}
+        <img src="https://img.championat.com/s/732x488/news/big/e/m/v-vada-zayavili-chto-valievoj-pozhertvovali-radi-zaschity-lic-davshih-ej-preparat_1710766928308767205.jpg"
+             class="card-img-top" style="width: 50rem;" alt="...">
+        {% endif %}
+        <div class="card-body">
+            <h6>Категория: {{article.category}}</h6>
+            <h5 class="card-title">{{article.title}}</h5>
+            <p class="card-text">{{article.content}}</p>
+            <p>{{article.update_date}}</p>
         </div>
+    </div>
+    {% endautoescape %}
+</div>
 {% endblock %}

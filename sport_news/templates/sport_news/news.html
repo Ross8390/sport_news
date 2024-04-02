@@ -34,7 +34,7 @@
             <h5 class="card-title">{{news.title}}</h5>
             <p class="card-text">{{news.content|truncatewords:30}}</p>
             <p>{{news.update_date}}</p>
-            <a href="{% url 'art' news.id %}" class="btn btn-primary">Полностью</a>
+            <a href="{{news.get_absolute_url}}" class="btn btn-primary">Полностью</a>
         </div>
     </div>
     <!--            {% endif %}-->
