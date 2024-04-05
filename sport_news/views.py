@@ -2,6 +2,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
+from sport_news.forms import NewsForm
 from sport_news.models import Article, Category
 
 
@@ -50,3 +51,16 @@ def article_view(request, article_id):
         'title': article.title,
         'article': article
     })
+
+
+def article_add(request):
+    use_form = NewsForm()
+    if request.method == 'POST':
+        s = Article.objects.create(
+            title=request.POST.get('title'),
+            content=request.POST.get('content'),
+            category_id=request.POST.get('category')
+            )
+        return HttpResponse(f'получилось')
+    else:
+        return render(request, 'sport_news/add_article.html', {'form': use_form})
