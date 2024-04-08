@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from sport_news.forms import NewsForm
 from sport_news.models import Article, Category
@@ -61,6 +61,6 @@ def article_add(request):
             content=request.POST.get('content'),
             category_id=request.POST.get('category')
             )
-        return HttpResponse(f'получилось')
+        return redirect('add')
     else:
         return render(request, 'sport_news/add_article.html', {'form': use_form})
