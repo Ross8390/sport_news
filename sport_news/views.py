@@ -46,7 +46,7 @@ def category_view(request, category_id):
 def article_view(request, article_id):
     # category = Category.objects.all()
     # article = Article.objects.get(id=article_id, is_published=True)
-    article = get_object_or_404(Article, pk=article_id, is_published=True)
+    article = get_object_or_404(Article, pk=article_id)
     return render(request, 'sport_news/article.html', {
         'title': article.title,
         'article': article
@@ -63,4 +63,4 @@ def article_add(request):
             return redirect(s)
     else:
         use_form = NewsForm()
-        return render(request, 'sport_news/add_article.html', {'form': use_form})
+    return render(request, 'sport_news/add_article.html', {'form': use_form})

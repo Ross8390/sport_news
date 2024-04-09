@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 {% load poll_extras %}
 {% block news %}
-<form method="POST" class="post-form">
+<form method="POST" class="was-validated">
     {% csrf_token %}
     <div class="mb-3">
         <label for="{{form.title.id_for_label}}" class="form-label">Заголовок</label>
         {{form.title}}
+        <div class="invalid-feedback">
+            Пожалуйста введите заголовок статьи.
+        </div>
     </div>
     <div class="mb-3">
         <label for="{{form.content.id_for_label}}" class="form-label">Статья</label>
         {{form.content}}
+        <div class="invalid-feedback">
+            Пожалуйста введите текст статьи.
+        </div>
     </div>
     <div class="mb-3">
         <label for="{{form.category.id_for_label}}" class="form-label">Категория</label>
         {{form.category}}
+        <div class="invalid-feedback">
+            Пожалуйста выберите категорию.
+        </div>
     </div>
     <div class="mb-3 form-check">
         {{form.is_published}}
