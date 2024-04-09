@@ -9,7 +9,21 @@ class NameModelChoiceField(forms.ModelChoiceField):
 
 
 class NewsForm(forms.Form):
-    title = forms.CharField(label='Заголовок')
-    content = forms.CharField(label='Статья', widget=forms.Textarea)
-    is_published = forms.BooleanField(label='Опубликовать')
-    category = NameModelChoiceField(label='Категория', queryset=Category.objects.order_by('id'))
+    title = forms.CharField(
+        label='Заголовок',
+        widget=forms.TextInput(attrs={'class': "form-control", 'style': 'width: 40rem'})
+        )
+    content = forms.CharField(
+        label='Статья',
+        widget=forms.Textarea(attrs={'class': "form-control", 'style': 'width: 40rem'})
+        )
+    is_published = forms.BooleanField(
+        label='Опубликовать',
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': "form-check-input"})
+        )
+    category = NameModelChoiceField(
+        label='Категория',
+        queryset=Category.objects.order_by('id'),
+        widget=forms.Select(attrs={'select class': "form-select", 'style': 'width: 15rem'})
+        )

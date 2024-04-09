@@ -54,13 +54,13 @@ def article_view(request, article_id):
 
 
 def article_add(request):
-    use_form = NewsForm()
     if request.method == 'POST':
-        s = Article.objects.create(
-            title=request.POST.get('title'),
-            content=request.POST.get('content'),
-            category_id=request.POST.get('category')
-            )
-        return redirect('add')
+        use_form = NewsForm(request.POST)
+        if use_form.is_valid():
+            s = Article.objects.create(
+                **use_form.cleaned_data
+                )
+            return redirect(s)
     else:
+        use_form = NewsForm()
         return render(request, 'sport_news/add_article.html', {'form': use_form})
