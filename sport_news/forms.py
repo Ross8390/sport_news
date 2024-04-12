@@ -5,7 +5,7 @@ from sport_news.models import Category
 
 class NameModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return "%s"%obj.title
+        return "%s" % obj.title
 
 
 class NewsForm(forms.Form):
@@ -26,4 +26,8 @@ class NewsForm(forms.Form):
         label='Категория',
         queryset=Category.objects.order_by('id'),
         widget=forms.Select(attrs={'select class': "form-select", 'style': 'width: 15rem'})
+        )
+    image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={'select class': "form-select", 'style': 'width: 40rem'})
         )
