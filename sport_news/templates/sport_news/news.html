@@ -40,11 +40,5 @@
     <!--            {% endif %}-->
     {% endautoescape %}
     {%endfor%}
-    {% if articles.has_previous %}
-    <a href="?articles={{ articles.previous_page_number }}">Назад</a>
-    {% endif %}
-    {% if articles.has_next %}
-    <a href="?articles={{ articles.next_page_number }}">Вперед</a>
-    {% endif %}
 </div>
 {% endblock %}
