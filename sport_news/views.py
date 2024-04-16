@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -113,13 +113,21 @@ class ArticleView(DetailView):
 #     return render(request, 'sport_news/add_article.html', {'form': use_form})
 
 
-def article_add(request):
-    if request.method == 'POST':
-        use_form = NewsForm(request.POST, request.FILES)
-        if use_form.is_valid():
-            obj = use_form.save()
-            return redirect(obj)
-    else:
-        use_form = NewsForm()
-    return render(request, 'sport_news/add_article.html', {'form': use_form})
+# def article_add(request):
+#     if request.method == 'POST':
+#         use_form = NewsForm(request.POST, request.FILES)
+#         if use_form.is_valid():
+#             obj = use_form.save()
+#             return redirect(obj)
+#     else:
+#         use_form = NewsForm()
+#     return render(request, 'sport_news/add_article.html', {'form': use_form})
 
+class ArticleAdd(CreateView):
+    form_class = NewsForm
+    template_name = 'sport_news/add_article.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Добавление статьи'
+        return context
