@@ -3,6 +3,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Мутко News {{title}}</title>
@@ -18,6 +19,7 @@
         {% endblock %}
         {% block news %}
         {% endblock %}
+        {% if is_paginated %}{% include 'inc/pagination_nav.html' %}{% endif %}
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

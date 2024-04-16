@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.views.generic import ListView, DetailView
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -18,39 +19,84 @@ from sport_news.models import Article, Category
 #     print(str1)
 #     return HttpResponse(str1)
 
-def news_view(request):
-    # articles = Article.objects.order_by('-update_date')
-    page_number = int(request.GET.get("articles", 1))
-    # category = Category.objects.all()
-    paginator = Paginator(Article.objects.filter(is_published=True), 5)
-    articles = paginator.get_page(page_number)
-    return render(request, 'sport_news/news.html', {
-        'articles': articles,
-        'title': ''
-    })
+# def news_view(request):
+#     # articles = Article.objects.order_by('-update_date')
+#     page_number = int(request.GET.get("articles", 1))
+#     # category = Category.objects.all()
+#     paginator = Paginator(Article.objects.filter(is_published=True), 5)
+#     articles = paginator.get_page(page_number)
+#     return render(request, 'sport_news/news.html', {
+#         'articles': articles,
+#         'title': ''
+#     })
+
+class NewsView(ListView):
+    model = Article
+    template_name = 'sport_news/news.html'
+    context_object_name = 'articles'
+    paginate_by = 5
+    # extra_context = {'title': 'Новости'}
+
+    def get_queryset(self):
+        return Article.objects.filter(is_published=True)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = ''
+        return context
 
 
-def category_view(request, category_id):
-    page_number = int(request.GET.get("articles", 1))
-    # category = Category.objects.all()
-    paginator = Paginator(Article.objects.filter(category_id=category_id, is_published=True), 5)
-    articles = paginator.get_page(page_number)
-    title_name = Category.objects.get(pk=category_id)
-    return render(request, 'sport_news/news.html', {
-        'articles': articles,
-        'title': title_name.title,
-        'category_id': category_id
-    })
+# def category_view(request, category_id):
+#     page_number = int(request.GET.get("articles", 1))
+#     # category = Category.objects.all()
+#     paginator = Paginator(Article.objects.filter(category_id=category_id, is_published=True), 5)
+#     articles = paginator.get_page(page_number)
+#     title_name = Category.objects.get(pk=category_id)
+#     return render(request, 'sport_news/news.html', {
+#         'articles': articles,
+#         'title': title_name.title,
+#         'category_id': category_id
+#     })
+
+class CategoryView(ListView):
+    model = Article
+    template_name = 'sport_news/news.html'
+    context_object_name = 'articles'
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Article.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        title_name = Category.objects.get(pk=self.kwargs['category_id'])
+        context['title'] = title_name.title
+        context['category_id'] = self.kwargs['category_id']
+        return context
 
 
-def article_view(request, article_id):
-    # category = Category.objects.all()
-    # article = Article.objects.get(id=article_id, is_published=True)
-    article = get_object_or_404(Article, pk=article_id)
-    return render(request, 'sport_news/article.html', {
-        'title': article.title,
-        'article': article
-    })
+# def article_view(request, article_id):
+#     # category = Category.objects.all()
+#     # article = Article.objects.get(id=article_id, is_published=True)
+#     article = get_object_or_404(Article, pk=article_id)
+#     return render(request, 'sport_news/article.html', {
+#         'title': article.title,
+#         'article': article
+#     })
+
+class ArticleView(DetailView):
+    model = Article
+    template_name = 'sport_news/article.html'
+    context_object_name = 'article'
+    slug_field = 'id'
+    slug_url_kwarg = 'article_id'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        title_name = Article.objects.get(pk=self.kwargs['article_id'])
+        context['title'] = title_name.title
+        return context
+
 
 
 # def article_add(request):
@@ -76,3 +122,4 @@ def article_add(request):
     else:
         use_form = NewsForm()
     return render(request, 'sport_news/add_article.html', {'form': use_form})
+
