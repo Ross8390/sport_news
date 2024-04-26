@@ -9,7 +9,14 @@ class Article(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     update_date = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, verbose_name='Категория')
+    views = models.PositiveIntegerField(default=0, verbose_name='Просмотры')
+    category = models.ForeignKey(
+        'Category',
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Категория',
+        related_name='articles'
+    )
 
     def __str__(self):
         return self.title

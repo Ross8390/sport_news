@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -88,13 +89,19 @@ class ArticleView(DetailView):
     model = Article
     template_name = 'sport_news/article.html'
     context_object_name = 'article'
-    slug_field = 'id'
-    slug_url_kwarg = 'article_id'
+    # slug_field = 'id'
+    # slug_url_kwarg = 'article_id'
+    pk_url_kwarg = 'article_id'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        title_name = Article.objects.get(pk=self.kwargs['article_id'])
-        context['title'] = title_name.title
+        # obj = Article.objects.get(pk=self.kwargs['article_id'])
+        # obj.views += 1
+        # obj.save(update_fields=['views'])
+        Article.objects.filter(pk=self.kwargs['article_id']).update(views=F('views') + 1)
+        # title_name = Article.objects.get(pk=self.kwargs['article_id'])
+        # context['title'] = title_name.title
+        context['title'] = self.get_object().title
         return context
 
 
