@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView
@@ -6,7 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from sport_news.forms import NewsForm
 from sport_news.models import Article, Category
-
+from sport_news.utils import NewsQuerysetMixin
 
 # def news_view(request):
 #     articles = Article.objects.order_by('-update_date')
@@ -31,15 +32,14 @@ from sport_news.models import Article, Category
 #         'title': ''
 #     })
 
-class NewsView(ListView):
+
+
+class NewsView(NewsQuerysetMixin):
     model = Article
     template_name = 'sport_news/news.html'
     context_object_name = 'articles'
     paginate_by = 5
     # extra_context = {'title': 'Новости'}
-
-    def get_queryset(self):
-        return Article.objects.filter(is_published=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -59,14 +59,15 @@ class NewsView(ListView):
 #         'category_id': category_id
 #     })
 
-class CategoryView(ListView):
+class CategoryView(NewsQuerysetMixin):
     model = Article
     template_name = 'sport_news/news.html'
     context_object_name = 'articles'
     paginate_by = 5
 
     def get_queryset(self):
-        return Article.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
+        queryset = super().get_queryset()
+        return queryset.filter(category_id=self.kwargs['category_id'])
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -130,9 +131,10 @@ class ArticleView(DetailView):
 #         use_form = NewsForm()
 #     return render(request, 'sport_news/add_article.html', {'form': use_form})
 
-class ArticleAdd(CreateView):
+class ArticleAdd(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'sport_news/add_article.html'
+    login_url = '/admin/'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
