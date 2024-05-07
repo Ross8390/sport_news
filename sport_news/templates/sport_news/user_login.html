@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load poll_extras %}
+{% block news %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_username" class="form-label">{{form.username.label_tag}} </label>
+        <input type="text" name="username" class="form-control" style="width: 25rem" id=id_username>
+    </div>
+    <div class="mb-3">
+        <label for="id_password" class="form-label">{{form.password.label_tag}}</label>
+        <input type="password" name="password" id="id_password" class="form-control" style="width: 25rem">
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Войти</button>
+</form>
+{% endblock %}

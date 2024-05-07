@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load poll_extras %}
+{% block news %}
+<form method="POST" class="form-signin" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_username" class="form-label">{{form.username.label_tag}}</label>
+        <input type="text" name="username" class="form-control" id=id_username style="width: 25rem">
+        <div id="id_username_helptext" class="form-text">{{form.username.help_text}}</div>
+    </div>
+    <div class="mb-3">
+        <label for="id_password1" class="form-label">{{form.password1.label_tag}}</label>
+        <input type="password" name="password1" id="id_password1" class="form-control" style="width: 25rem">
+        <div id="id_password1_helptext" class="form-text">{{form.password1.help_text}}</div>
+    </div>
+    <div class="mb-3">
+        <label for="id_password2" class="form-label">{{form.password2.label_tag}}</label>
+        <input type="password" name="password2" id="id_password2" class="form-control" style="width: 25rem">
+        <div id="id_password2_helptext" class="form-text">{{form.password2.help_text}}</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+</form>
+{% endblock %}

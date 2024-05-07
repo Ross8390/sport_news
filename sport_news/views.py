@@ -1,3 +1,5 @@
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import F
@@ -140,3 +142,35 @@ class ArticleAdd(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Добавление статьи'
         return context
+
+
+def user_register(request):
+    if request.method == 'POST':
+        use_form = UserCreationForm(request.POST)
+        for i in use_form:
+            print(i)
+        if use_form.is_valid():
+            use_form.save()
+            return redirect('main')
+    else:
+        use_form = UserCreationForm()
+    return render(request, 'sport_news/user_register.html', {'form': use_form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        use_form = AuthenticationForm(data=request.POST)
+        for i in use_form:
+            print(i)
+        if use_form.is_valid():
+            user = use_form.get_user()
+            login(request, user)
+            return redirect('main')
+    else:
+        use_form = AuthenticationForm()
+    return render(request, 'sport_news/user_login.html', {'form': use_form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
