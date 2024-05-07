@@ -15,6 +15,7 @@
         {% include 'inc/navbar.html' %}
         {% current_time "%Y-%m-%d %H:%M" as the_time %}
         <p>Текущее время: {{ the_time }}.</p>
+        {% include 'inc/messages.html' %}
         {% block category_menu %}
         {% endblock %}
         {% block news %}

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -147,11 +148,12 @@ class ArticleAdd(LoginRequiredMixin, CreateView):
 def user_register(request):
     if request.method == 'POST':
         use_form = UserCreationForm(request.POST)
-        for i in use_form:
-            print(i)
         if use_form.is_valid():
             use_form.save()
-            return redirect('main')
+            messages.success(request, 'Регистрация выполнена. Войдите в учетную запись.')
+            return redirect('login')
+        else:
+            messages.error(request, 'Данные введены неверно')
     else:
         use_form = UserCreationForm()
     return render(request, 'sport_news/user_register.html', {'form': use_form})
@@ -160,12 +162,13 @@ def user_register(request):
 def user_login(request):
     if request.method == 'POST':
         use_form = AuthenticationForm(data=request.POST)
-        for i in use_form:
-            print(i)
         if use_form.is_valid():
             user = use_form.get_user()
             login(request, user)
+            messages.success(request, 'Вход успешно выполнен')
             return redirect('main')
+        else:
+            messages.error(request, 'Данные введены неверно')
     else:
         use_form = AuthenticationForm()
     return render(request, 'sport_news/user_login.html', {'form': use_form})
