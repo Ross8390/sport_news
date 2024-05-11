@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load poll_extras %}
+{% block news %}
+<form method="POST" class="was-validated" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+{% endblock %}

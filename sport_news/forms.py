@@ -44,3 +44,14 @@ class NewsForm(ModelForm):
             'category': Select(attrs={'select class': "form-select", 'style': 'width: 15rem'}),
             'image': FileInput(attrs={'select class': "form-select", 'style': 'width: 40rem'})
         }
+
+
+class FeedbackForm(forms.Form):
+    title = forms.CharField(
+        label='Тема',
+        widget=forms.TextInput(attrs={'class': "form-control", 'style': 'width: 40rem'})
+    )
+    content = forms.CharField(
+        label='Текст',
+        widget=forms.Textarea(attrs={'class': "form-control", 'style': 'width: 40rem'})
+    )

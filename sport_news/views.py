@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,9 +10,10 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from sport_news.forms import NewsForm
+from sport_news.forms import NewsForm, FeedbackForm
 from sport_news.models import Article, Category
 from sport_news.utils import NewsQuerysetMixin
+
 
 # def news_view(request):
 #     articles = Article.objects.order_by('-update_date')
@@ -36,12 +39,12 @@ from sport_news.utils import NewsQuerysetMixin
 #     })
 
 
-
 class NewsView(NewsQuerysetMixin):
     model = Article
     template_name = 'sport_news/news.html'
     context_object_name = 'articles'
     paginate_by = 5
+
     # extra_context = {'title': 'Новости'}
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -107,7 +110,6 @@ class ArticleView(DetailView):
         # context['title'] = title_name.title
         context['title'] = self.get_object().title
         return context
-
 
 
 # def article_add(request):
@@ -177,3 +179,25 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+
+def feedback_add(request):
+    if request.method == 'POST':
+        use_form = FeedbackForm(request.POST)
+        if use_form.is_valid():
+            result = send_mail(
+                use_form.cleaned_data['title'],
+                use_form.cleaned_data['content'],
+                settings.EMAIL_HOST_USER,
+                ['ross1990@mail.ru'],
+            )
+            if result:
+                messages.success(request, 'Сообщение отправлено')
+                return redirect('feedback')
+            else:
+                messages.error(request, 'Ошибка отправки сообщения')
+        else:
+            messages.error(request, 'Данные введены неверно')
+    else:
+        use_form = FeedbackForm()
+    return render(request, 'sport_news/feedback_add.html', {'form': use_form})

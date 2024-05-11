@@ -2,7 +2,8 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import path
 from django.views.generic import RedirectView
 
-from sport_news.views import NewsView, CategoryView, ArticleView, ArticleAdd, user_register, user_login, user_logout
+from sport_news.views import NewsView, CategoryView, ArticleView, ArticleAdd, user_register, user_login, user_logout, \
+    feedback_add
 
 # urlpatterns = [
 #     path('', news_view, name='main'),
@@ -20,4 +21,5 @@ urlpatterns = [
     path('user_register/', user_register, name='register'),
     path('user_login/', user_login, name='login'),
     path('user_logout/', user_logout, name='logout'),
+    path('feedback_add/', feedback_add, name='feedback')
 ]
