@@ -1,5 +1,6 @@
 import datetime
 from django import template
+from django.core.cache import cache
 
 from sport_news.models import Category
 
@@ -17,7 +18,10 @@ def category_tag():
 
 @register.inclusion_tag('sport_news/categories.html')
 def category_inc(category_id):
-    category = Category.objects.all()
+    category = cache.get('category')
+    if not category:
+        category = Category.objects.all()
+        cache.set('category', category, 60)
     return {
         'category': category,
         'category_id': category_id

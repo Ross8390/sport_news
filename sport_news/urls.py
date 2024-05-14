@@ -1,6 +1,7 @@
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import path
 from django.views.generic import RedirectView
+from django.views.decorators.cache import cache_page
 
 from sport_news.views import NewsView, CategoryView, ArticleView, ArticleAdd, user_register, user_login, user_logout, \
     feedback_add
@@ -14,7 +15,8 @@ from sport_news.views import NewsView, CategoryView, ArticleView, ArticleAdd, us
 
 
 urlpatterns = [
-    path('', NewsView.as_view() , name='main'),
+    # path('', cache_page(60)(NewsView.as_view()), name='main'),
+    path('', NewsView.as_view(), name='main'),
     path('category/<int:category_id>', CategoryView.as_view(), name='cat'),
     path('article/<int:article_id>', ArticleView.as_view(), name='art'),
     path('add_article/', ArticleAdd.as_view(), name='add'),
